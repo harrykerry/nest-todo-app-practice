@@ -16,12 +16,14 @@ import { successResponse } from 'src/helpers/response.handler';
 import { plainToInstance } from 'class-transformer';
 import { UserResponseDto } from './dto/user-response.dto';
 import { UserIdParamDto } from 'src/common/dtos/user-id-param.dto';
-
+import { JwtGuard } from 'src/auth/jwt/jwt.guard';
+import { UseGuards } from '@nestjs/common';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @UseGuards(JwtGuard)
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createUserDto: CreateUserDto) {
     const user = await this.usersService.create(createUserDto);
@@ -38,6 +40,7 @@ export class UsersController {
   }
 
   @Get()
+  @UseGuards(JwtGuard)
   async findAll() {
     const users = await this.usersService.findAll();
     const usersResp = plainToInstance(UserResponseDto, users, {
@@ -48,6 +51,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @UseGuards(JwtGuard)
   async findOne(@Param() params: UserIdParamDto) {
     const user = await this.usersService.findOne(params.id);
 
@@ -63,6 +67,7 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtGuard)
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     const user = await this.usersService.update(id, updateUserDto);
 
@@ -78,6 +83,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtGuard)
   async remove(@Param('id') id: string) {
     const deleteResponse = await this.usersService.remove(id);
 

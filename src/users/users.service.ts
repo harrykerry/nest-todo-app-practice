@@ -43,6 +43,13 @@ export class UsersService {
     return this.userRepo.findOne({ where: { id } });
   }
 
+  findByUsername(username: string) {
+    return this.userRepo.findOne({
+      where: { username },
+      select: ['id', 'username', 'password'],
+    });
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto) {
     const user = await this.userRepo.findOne({ where: { id } });
 

@@ -1,4 +1,4 @@
-// src/helpers/response.helper.ts
+// src/helpers/response.handler.ts
 
 export interface SuccessResponse<T> {
   statusCode: number;
