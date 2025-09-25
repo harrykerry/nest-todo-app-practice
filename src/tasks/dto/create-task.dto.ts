@@ -2,21 +2,17 @@ import {
   IsString,
   IsOptional,
   IsDateString,
-  IsUUID,
   IsNotEmpty,
   MinLength,
 } from 'class-validator';
 
 export class CreateTaskDto {
-  @IsString()
-  @IsNotEmpty()
+  @IsString({ message: 'Task Description must be a valid string' })
+  @IsNotEmpty({ message: 'Task Description cannot be empty' })
   @MinLength(3, { message: 'Description Too Short' })
   taskDescription: string;
 
   @IsOptional()
   @IsDateString()
   dueDate?: string;
-
-  @IsUUID()
-  userId: string;
 }
